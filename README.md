@@ -15,3 +15,16 @@
 - 매체의 발전으로 사람들의 문화 생활에 대한 욕구가 상승하였고 그에 따른 데이터를 필요로 함
 - open api 응용
 - 데이터 처리(CRUD)와 다양한 기능구현
+
+⛏ 개발 환경
+- Language
+-   Java
+-   JSP/JSTL
+-   HTML/CSS
+-   JS/Jquery/Json/Ajax
+
+- Tools
+-   Spring Legacy
+-   Oracle Database
+-   Sql Developer
+-   Git/GitHub
