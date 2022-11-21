@@ -18,13 +18,16 @@
 
 ⛏ 개발 환경
 - Language
--   Java
--   JSP/JSTL
--   HTML/CSS
--   JS/Jquery/Json/Ajax
+  -  Java
+  -  JSP/JSTL
+  -  HTML/CSS
+  -  JS/Jquery/Json/Ajax
 
 - Tools
--   Spring Legacy
--   Oracle Database
--   Sql Developer
--   Git/GitHub
+  -  Spring Legacy
+  -  Oracle Database
+  -  Sql Developer
+  -  Git/GitHub
+
+📌ERD
+![ERD](https://user-images.githubusercontent.com/112474001/202979460-efdc2e93-64ca-4a4d-84fc-f72932495c02.png)
