@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.member">
+	
+	<!-- member mypage_update -->
+	<update id="mypage_update" parameterType="com.mangoplate.vo.MangoMemberVO" >
+		update mg_member set pass=#{pass},name=#{name},
+			hp=#{hp},pnumber=#{pnumber}, 
+			addr1=#{addr1}, addr2=#{addr2} 
+			where id=#{id}
+	</update>
+	
+	<!-- member mypage -->
+	<select id="mypage" parameterType="java.lang.String" resultType="com.mangoplate.vo.MangoMemberVO" >
+		select id, name, hp, pnumber, email, addr1, addr2
+				 from mg_member where id=#{id}
+	</select> 
+	
+	<!-- member idcheck -->
+	<select id="idcheck" parameterType="java.lang.String" resultType="int">
+		select count(id) from mg_member where id=#{id}
+	</select>
+
+	<!-- member total_count -->
+	<select id="total_count" resultType="int">
+		select count(*) from mg_member	
+	</select>
+
+	<!-- member content -->
+	<select id="content" parameterType="java.lang.String" resultType="com.mangoplate.vo.MangoMemberVO" >
+		select id, name, hp, pnumber, email, mdate, addr1, addr2
+				 from mg_member where id=#{id}
+	</select>
+
+	<!-- member list -->
+	<select id="listAll" parameterType="map" resultType="com.mangoplate.vo.MangoMemberVO">
+		select rno, id, name, pnumber, mdate 
+				from (select rownum rno, id, name, pnumber, to_char(mdate,'yyyy-mm-dd') mdate  
+				from (select id, name, pnumber, mdate from mg_member  
+				            order by mdate desc)) 
+				where rno between #{start} and #{end}
+	</select>
+
+	<!-- member login -->
+	<select id="login" parameterType="com.mangoplate.vo.MangoMemberVO" resultType="com.mangoplate.vo.SessionVO">
+		select count(*) loginresult, name, id
+				from mg_member where id=#{id} and pass=#{pass}
+				group by name, id
+	</select>
+
+	<!-- member join -->
+	<insert id="join" parameterType="com.mangoplate.vo.MangoMemberVO" >
+		insert into mg_member
+		 	 values (#{id},#{pass},#{name},#{hp},#{pnumber},#{email},#{addr1},#{addr2},sysdate)
+	</insert>
+
+</mapper>    
+    

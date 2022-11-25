@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.boardstory">
+	<!-- board totalcount -->
+	<select id="totalcount" resultType="int">
+		select count(*) from
+		mg_board_story
+	</select>
+
+	<!-- board delete -->
+	<delete id="delete" parameterType="java.lang.String">
+		delete from mg_board_story
+		where sid=#{sid}
+	</delete>
+
+	<!-- board update -->
+	<update id="update"
+		parameterType="com.mangoplate.vo.MangoBoardStoryVO">
+		update mg_board_story set editer=#{editer},
+		stitle=#{stitle}, sstitle=#{sstitle}, scontent=#{scontent},
+		simage=#{simage}, ssimage=#{ssimage}
+		where sid=#{sid}
+	</update>
+
+	<!-- board updatehits -->
+	<update id="updatehits" parameterType="java.lang.String">
+		update mg_board_story set
+		shits=shits+1
+		where sid=#{sid}
+	</update>
+
+	<!-- board content -->
+	<select id="content" parameterType="java.lang.String"
+		resultType="com.mangoplate.vo.MangoBoardStoryVO">
+		select sid, editer, stitle, sstitle,
+		to_char(sdate,'yyyy-mm-dd') sdate, shits, scontent, simage, ssimage
+		from
+		mg_board_story where sid=#{sid}
+	</select>
+
+	<!-- board list -->
+	<select id="list"
+		resultType="com.mangoplate.vo.MangoBoardStoryVO">
+		select rno, sid, editer, stitle, sstitle, sdate, shits, scontent,
+		simage, ssimage
+		from
+		(select rownum rno, sid, editer, stitle, sstitle,
+		to_char(sdate,
+		'yyyy-mm-dd') sdate, shits, scontent, simage, ssimage
+		from (select sid, editer, stitle,
+		sstitle,
+		sdate, shits, scontent,
+		simage, ssimage from
+		mg_board_story order by sdate desc)
+		)
+	</select>
+
+	<!-- board insert -->
+	<insert id="insert"
+		parameterType="com.mangoplate.vo.MangoBoardStoryVO">
+		insert into
+		mg_board_story
+		values('b_'
+		||SEQU_mg_board_story.nextval, #{editer},#{stitle},#{sstitle},
+		sysdate, 0, #{scontent}, #{simage}, #{ssimage})
+	</insert>
+</mapper>    
+    

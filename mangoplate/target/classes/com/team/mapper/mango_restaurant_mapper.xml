@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="mapper.restaurant">
+
+	<!--restaurant total count-->
+	<select id="totalcount" resultType="int">
+		select count(*) from mg_restaurant
+	</select>
+	
+	<!-- restaurant delete -->
+	<delete id="delete" parameterType="java.lang.String">
+		delete from mg_restaurant where rid=#{rid}
+	</delete>
+	
+	<!-- restaurant update / update resultType is skip-->
+	<update id="update" parameterType="com.mangoplate.vo.MangoRestVO" >
+		update mg_restaurant set rname=#{rname},raddr=#{raddr},
+			rcontact=#{rcontact},rprice=#{rprice},rcategory=#{rcategory}, 
+			rimage=#{rimage}, rsimage=#{rsimage} 
+			where rid=#{rid}
+	</update>
+
+	<!-- restaurant updatehits -->
+	<update id="updatehits" parameterType="java.lang.String">
+		update mg_restaurant set rhits=rhits+1 where rid=#{rid}
+	</update>
+	
+	<!-- restaurant content-->
+	<select id="content" parameterType="java.lang.String" resultType="com.mangoplate.vo.MangoRestVO">
+	 select rid,rname,raddr,rcontact,rprice,rcategory,rdate,rhits,rimage,rsimage
+		 from mg_restaurant  where rid=#{rid}
+	</select>
+
+	<!-- restaurant list -->
+	<select id="list" parameterType="map" resultType="com.mangoplate.vo.MangoRestVO">
+	select rno,rname,rcategory,rcontact,rdate
+		from (  select rownum rno,rid,rname,raddr,rcontact,rprice,rcategory,to_char(rdate, 'yyyy-mm-dd')rdate,rhits,rimage,rsimage
+                from (  select rownum rno,rid,rname,raddr,rcategory,rcontact,rprice,rdate,rhits,rimage,rsimage from mg_restaurant order by rdate desc))
+		where rno between #{start} and #{end} 
+	</select>
+	
+	<!-- restaurant insert -->
+	<insert id="insert" parameterType="com.mangoplate.vo.MangoRestVO">
+		insert into mg_restaurant
+		values('r_'||sequ_mg_restaurant.nextval, #{rname},#{raddr},#{rcontact},#{rprice},#{rcategory},sysdate,0,#{rimage},#{rsimage})
+	</insert>
+	
+</mapper>
